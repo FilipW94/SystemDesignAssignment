@@ -6,19 +6,42 @@
 #include "Subsystems/GameInstanceSubsystem.h"
 #include "CurrencySubsystem.generated.h"
 
-/**
- * 
- */
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FSessionResourcesChanged, float, NewSessionResourceAmount);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FTotalResourcesChanged, float, NewTotalResourceAmount);
+
 UCLASS()
 class UCurrencySubsystem : public UGameInstanceSubsystem
 {
-
 	GENERATED_BODY()
 
 	UPROPERTY()
-	uint32 TotalScore;
+	int32 TotalResources;
 
 	UPROPERTY()
-	uint32 SessionScore;
+	int32 SessionResources;
+
+public:
+
+	UPROPERTY(BlueprintAssignable)
+	FSessionResourcesChanged SessionResourcesChanged;
+
+	UPROPERTY(BlueprintAssignable)
+	FTotalResourcesChanged TotalResourcesChanged;
+	
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	void IncreaseTotalResources(float ResourcesGained);
+
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	void DecreaseTotalResources(float ResourcesSpent);
+
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	void IncreaseSessionResources(float ResourcesGained);
+
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	void DecreaseSessionResources(float ResourcesLost);
+
+	FORCEINLINE float GetTotalScore() const{return TotalResources;}
+
+	FORCEINLINE float GetSessionScore() const{return SessionResources;}
 	
 };
