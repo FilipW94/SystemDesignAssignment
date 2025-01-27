@@ -2,33 +2,104 @@
 
 
 #include "InteractComponent.h"
+#include "Interface_Interact.h"
 
-// Sets default values for this component's properties
-UInteractComponent::UInteractComponent()
+void UInteractComponent::PrintMessage(const FString& MessageToPrint)
 {
-	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
-	// off to improve performance if you don't need them.
-	PrimaryComponentTick.bCanEverTick = true;
-
-	// ...
+	if(bUseDebugMessage)
+	{
+		UE_LOG(LogTemp,Warning,TEXT("%s"),*MessageToPrint);
+	}
 }
 
+void UInteractComponent::PerformCapsuleInteract()
+{
+	if(InteractCapsule)
+	{
+		PrintMessage("Capsule Interact");
+		TArray<AActor*> OverlappingActors;
+		TArray<AActor*> PossibleInteractTargets;
+		InteractCapsule->GetOverlappingActors(OverlappingActors);
+		for(AActor* OverlappingActor: OverlappingActors)
+		{
+			if(OverlappingActor && OverlappingActor->Implements<UInterface_Interact>())
+			{
+				PossibleInteractTargets.Add(OverlappingActor);
+				PrintMessage("Capsule Interact target found");
+			}
+		}
+		FString TextInt = FString::FromInt(PossibleInteractTargets.Num());
+		PrintMessage(TextInt);
+	}
+}
 
-// Called when the game starts
+void UInteractComponent::PerformTraceInteract()
+{
+	if(InteractTraceSender)
+	{
+		if(InteractTraceRange <= 0)
+		{
+			
+		} else
+		{
+			PrintMessage("InteractTraceRange <= 0");
+		}
+	} else
+	{
+		PrintMessage("InteractTraceSender is not valid");
+	}
+}
+
+UInteractComponent::UInteractComponent()
+{
+	PrimaryComponentTick.bCanEverTick = false;
+	PrimaryComponentTick.bStartWithTickEnabled = false;
+}
+
 void UInteractComponent::BeginPlay()
 {
 	Super::BeginPlay();
-
-	// ...
 	
 }
 
-
-// Called every frame
-void UInteractComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
+void UInteractComponent::SetInteractCapsule(UCapsuleComponent* DesiredInteractCapsule)
 {
-	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-
-	// ...
+	if(bUseInteractPrompt == true || ChosenInteractType == EInteractType::CapsuleInteract)
+	{
+		InteractCapsule = DesiredInteractCapsule;
+		PrintMessage("Interact Capsule set");
+		return;
+	}
+	PrintMessage("Interact capsule was not set because bUseInteractPrompt != true AND ChosenInteractType != CapsuleInteract");
 }
 
+void UInteractComponent::SetInteractTraceSender(AActor* NewInteractTraceSender)
+{
+	if(ChosenInteractType == EInteractType::LineTrace)
+	{
+		InteractTraceSender = NewInteractTraceSender;
+		PrintMessage("InteractTraceSender was set");
+		return;
+	}
+	PrintMessage("InteractTraceSender was not set because ChosenInteractType != LineTrace");
+}
+
+void UInteractComponent::InteractAttempt()
+{
+	switch (ChosenInteractType)
+	{
+	case EInteractType::None:
+		PrintMessage("EInteractType::None chosen");
+		break;
+	case EInteractType::CapsuleInteract:
+		PrintMessage("CapsuleInteract chosen");
+		PerformCapsuleInteract();
+		break;
+	case EInteractType::LineTrace:
+		PrintMessage("LineTrace chosen");
+		PerformTraceInteract();
+		break;
+		default:
+			break;
+	}
+}
