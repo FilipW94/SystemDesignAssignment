@@ -12,10 +12,7 @@
 UCLASS()
 class UCurrencySubsystem : public UGameInstanceSubsystem
 {
-public:
-	virtual void Initialize(FSubsystemCollectionBase& Collection) override;
 
-private:
 	GENERATED_BODY()
 
 	UPROPERTY()
