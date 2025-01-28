@@ -26,6 +26,9 @@ class SDASSIGNMENT_API UInteractComponent : public UActorComponent
 	UPROPERTY()
 	AActor* InteractTraceSender;
 
+	UPROPERTY()
+	AActor* CurrentInteractTarget;
+
 	UFUNCTION()
 	void PrintMessage(const FString& MessageToPrint);
 
@@ -63,6 +66,9 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void InteractAttempt();
+
+	UFUNCTION()
+	AActor* ClosestActorInCapsule(TArray<AActor*> PossibleInteractTargets);
 
 protected:
 	// Called when the game starts

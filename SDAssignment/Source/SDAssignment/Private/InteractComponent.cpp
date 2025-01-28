@@ -28,6 +28,23 @@ void UInteractComponent::PerformCapsuleInteract()
 				PrintMessage("Capsule Interact target found");
 			}
 		}
+		switch (PossibleInteractTargets.Num())
+		{
+		case 0:
+			PrintMessage("PossibleInteractTargets.Num() was 0");
+			return;
+			break;
+		case 1:
+		CurrentInteractTarget = PossibleInteractTargets[0];
+			break;
+		default:
+			CurrentInteractTarget = ClosestActorInCapsule(PossibleInteractTargets);
+			break;
+		}
+		if(CurrentInteractTarget && CurrentInteractTarget->Implements<UInterface_Interact>())
+		{
+			IInterface_Interact::Execute_Interact(CurrentInteractTarget, GetOwner());
+		}
 		FString TextInt = FString::FromInt(PossibleInteractTargets.Num());
 		PrintMessage(TextInt);
 	}
@@ -102,4 +119,21 @@ void UInteractComponent::InteractAttempt()
 		default:
 			break;
 	}
+}
+
+AActor* UInteractComponent::ClosestActorInCapsule(TArray<AActor*> PossibleInteractTargets)
+{
+	AActor* CurrentClosestActor = PossibleInteractTargets[0];
+	float CurrentClosestDistance = FVector::Distance(GetOwner()->GetActorLocation(),CurrentClosestActor->GetActorLocation());
+	
+	for (int i = 1; i < PossibleInteractTargets.Num(); i++)
+	{
+		float Distance = FVector::Distance(GetOwner()->GetActorLocation(), PossibleInteractTargets[i]->GetActorLocation());
+		if(CurrentClosestDistance > Distance)
+		{
+			CurrentClosestActor = PossibleInteractTargets[i];
+			CurrentClosestDistance = Distance;
+		}
+	}
+	return CurrentClosestActor;
 }
