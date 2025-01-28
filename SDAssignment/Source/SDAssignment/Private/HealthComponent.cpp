@@ -8,7 +8,7 @@ UHealthComponent::UHealthComponent()
 {
 	PrimaryComponentTick.bCanEverTick = false;
 	PrimaryComponentTick.bStartWithTickEnabled = false;
-	CurrentHealth = MaxHealth;
+
 }
 
 void UHealthComponent::HealthGained(float HealthAmountGained)
@@ -27,18 +27,20 @@ void UHealthComponent::HealthLost(float HealthAmountLost)
 	{
 		CurrentHealth = 0.f;
 		PlayerDied.Broadcast();
+		return;
 		
 	}
+	HealthChanged.Broadcast(CurrentHealth);
 }
 
-void UHealthComponent::PlayerHasDied()
+void UHealthComponent::PlayerHasDied_Implementation()
 {
 }
-
 
 // Called when the game starts
 void UHealthComponent::BeginPlay()
 {
 	Super::BeginPlay();
+	CurrentHealth = MaxHealth;
 }
 
