@@ -8,7 +8,7 @@
 #include "SDAssignmentCharacter.generated.h"
 
 class UInputComponent;
-class USkeletalMeshComponent;
+// class USkeletalMeshComponent;
 class UCameraComponent;
 class UInputAction;
 class UInputMappingContext;
@@ -20,10 +20,10 @@ UCLASS(config=Game)
 class ASDAssignmentCharacter : public ACharacter
 {
 	GENERATED_BODY()
-
-	/** Pawn mesh: 1st person view (arms; seen only by self) */
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Mesh, meta = (AllowPrivateAccess = "true"))
-	USkeletalMeshComponent* Mesh1P;
+	//
+	// /** Pawn mesh: 1st person view (arms; seen only by self) */
+	// UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Mesh, meta = (AllowPrivateAccess = "true"))
+	// USkeletalMeshComponent* Mesh1P;
 
 	/** First person camera */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
@@ -62,8 +62,8 @@ protected:
 	// End of APawn interface
 
 public:
-	/** Returns Mesh1P subobject **/
-	USkeletalMeshComponent* GetMesh1P() const { return Mesh1P; }
+	// /** Returns Mesh1P subobject **/
+	// USkeletalMeshComponent* GetMesh1P() const { return Mesh1P; }
 	/** Returns FirstPersonCameraComponent subobject **/
 	UCameraComponent* GetFirstPersonCameraComponent() const { return FirstPersonCameraComponent; }
 
