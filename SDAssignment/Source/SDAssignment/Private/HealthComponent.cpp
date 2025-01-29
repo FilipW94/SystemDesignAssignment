@@ -26,14 +26,14 @@ void UHealthComponent::HealthLost(float HealthAmountLost)
 	if(CurrentHealth <= 0.f)
 	{
 		CurrentHealth = 0.f;
-		PlayerDied.Broadcast();
+		OwnerDied.Broadcast();
 		return;
 		
 	}
 	HealthChanged.Broadcast(CurrentHealth);
 }
 
-void UHealthComponent::PlayerHasDied_Implementation()
+void UHealthComponent::OwnerHasDied_Implementation()
 {
 }
 

@@ -40,8 +40,10 @@ public:
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
 	void DecreaseSessionResources(float ResourcesLost);
 
+	UFUNCTION(BlueprintCallable)
 	FORCEINLINE float GetTotalScore() const{return TotalResources;}
 
+	UFUNCTION(BlueprintCallable)
 	FORCEINLINE float GetSessionScore() const{return SessionResources;}
 	
 };

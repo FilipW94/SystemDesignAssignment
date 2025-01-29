@@ -7,14 +7,13 @@
 #include "HealthComponent.generated.h"
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FHealthChangedDelegate, float, NewHealth);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE(FPlayerDiedDelegate);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOwnerDiedDelegate);
 
 UCLASS(Blueprintable, ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class SDASSIGNMENT_API UHealthComponent : public UActorComponent
 {
 	GENERATED_BODY()
-	
-	
+
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
@@ -32,8 +31,7 @@ public:
 	FHealthChangedDelegate HealthChanged;
 
 	UPROPERTY(BlueprintAssignable)
-	FPlayerDiedDelegate PlayerDied;
-
+	FOwnerDiedDelegate OwnerDied;
 
 	UFUNCTION(BlueprintCallable)
 	void HealthGained(float HealthAmountGained);
@@ -41,8 +39,8 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void HealthLost(float HealthAmountLost);
 
-	UFUNCTION(BlueprintNativeEvent)
-	void PlayerHasDied();
+	UFUNCTION(BlueprintNativeEvent, Blueprintable)
+	void OwnerHasDied();
 	
 
 	
