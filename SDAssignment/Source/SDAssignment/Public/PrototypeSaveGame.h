@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/SaveGame.h"
+#include "PrototypeEnums.h"
 #include "PrototypeSaveGame.generated.h"
 
 /**
@@ -22,6 +23,30 @@ public:
 	void SaveAllData(const TArray<AActor*>&  SavableObject);
 
 	UPROPERTY(BlueprintReadWrite)
-	int32 PlayerCurrency;
+	int32 TotalResources;
+
+	UPROPERTY(BlueprintReadWrite)
+	int32 SessionResources;
+
+	UPROPERTY(BlueprintReadWrite)
+	TMap<E_Levels, bool> UnlockedMaps;
+
+	UPROPERTY(BlueprintReadWrite)
+	float DirectDamage;
+
+	UPROPERTY(BlueprintReadWrite)
+	int32 StartingBolts;
+
+	UPROPERTY(BlueprintReadWrite)
+	float ReloadSpeed;
+
+	UPROPERTY(BlueprintReadWrite)
+	float MoveSpeed;
+
+	UPROPERTY(BlueprintReadWrite)
+	float MapHighScore;
+
+	UPROPERTY(BlueprintReadWrite)
+	float MaxHealth;
 	
 };
