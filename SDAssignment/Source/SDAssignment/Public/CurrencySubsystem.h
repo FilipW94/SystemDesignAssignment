@@ -41,9 +41,9 @@ public:
 	void DecreaseSessionResources(float ResourcesLost);
 
 	UFUNCTION(BlueprintCallable)
-	FORCEINLINE float GetTotalScore() const{return TotalResources;}
+	FORCEINLINE float GetTotalResources() const{return TotalResources;}
 
 	UFUNCTION(BlueprintCallable)
-	FORCEINLINE float GetSessionScore() const{return SessionResources;}
+	FORCEINLINE float GetSessionResources() const{return SessionResources;}
 	
 };
