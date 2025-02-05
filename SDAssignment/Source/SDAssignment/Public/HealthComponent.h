@@ -24,7 +24,7 @@ public:
 	UPROPERTY(BlueprintReadOnly)
 	float CurrentHealth;
 	
-	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	UPROPERTY(BlueprintReadOnly)
 	float MaxHealth;
 	
 	UPROPERTY(BlueprintAssignable)
@@ -41,6 +41,9 @@ public:
 
 	UFUNCTION(BlueprintNativeEvent, Blueprintable)
 	void OwnerHasDied();
+
+	UFUNCTION(BlueprintCallable)
+	void SetMaxHealth(float NewMaxHealth);
 	
 
 	

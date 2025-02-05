@@ -15,6 +15,8 @@ class SDASSIGNMENT_API UPrototypeSaveGame : public USaveGame
 {
 	GENERATED_BODY()
 
+	UPrototypeSaveGame();
+
 public:
 	UFUNCTION(BlueprintNativeEvent,BlueprintCallable)
 	void LoadDataForRequester(UObject* Requester);
@@ -23,30 +25,33 @@ public:
 	void SaveAllData(const TArray<AActor*>&  SavableObject);
 
 	UPROPERTY(BlueprintReadWrite)
-	int32 TotalResources;
+	int32 Saved_TotalResources = 100.f;
 
 	UPROPERTY(BlueprintReadWrite)
-	int32 SessionResources;
+	int32 Saved_SessionResources = 0.f;
 
 	UPROPERTY(BlueprintReadWrite)
-	TMap<E_Levels, bool> UnlockedMaps;
+	TMap<E_Levels, bool> Saved_UnlockedMaps;
 
 	UPROPERTY(BlueprintReadWrite)
-	float DirectDamage;
+	float Saved_DirectDamage = 25.f;
 
 	UPROPERTY(BlueprintReadWrite)
-	int32 StartingBolts;
+	int32 Saved_StartingBolts = 10.f;
 
 	UPROPERTY(BlueprintReadWrite)
-	float ReloadSpeed;
+	float Saved_ReloadSpeed = 2.0f;
 
 	UPROPERTY(BlueprintReadWrite)
-	float MoveSpeed;
+	float Saved_MoveSpeed = 600.f;
 
 	UPROPERTY(BlueprintReadWrite)
-	float MapHighScore;
+	float Saved_MapHighScore = 0.f;
 
 	UPROPERTY(BlueprintReadWrite)
-	float MaxHealth;
+	float Saved_MaxHealth = 100.f;
+
+	UFUNCTION()
+	void SetInitialMapStatus();
 	
 };

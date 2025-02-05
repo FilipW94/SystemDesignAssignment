@@ -33,6 +33,12 @@ void UHealthComponent::HealthLost(float HealthAmountLost)
 	HealthChanged.Broadcast(CurrentHealth);
 }
 
+void UHealthComponent::SetMaxHealth(float NewMaxHealth)
+{
+	MaxHealth = NewMaxHealth;
+	CurrentHealth = MaxHealth;
+}
+
 void UHealthComponent::OwnerHasDied_Implementation()
 {
 }
@@ -41,6 +47,5 @@ void UHealthComponent::OwnerHasDied_Implementation()
 void UHealthComponent::BeginPlay()
 {
 	Super::BeginPlay();
-	CurrentHealth = MaxHealth;
 }
 

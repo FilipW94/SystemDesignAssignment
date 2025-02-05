@@ -21,6 +21,7 @@ void UPrototypeGameInstance::LoadGame(const bool Async)
 		FAsyncLoadGameFromSlotDelegate LoadGameDelegate;
 		LoadGameDelegate.BindUObject(this, &UPrototypeGameInstance::SetSaveGameRef);
 		UGameplayStatics::AsyncLoadGameFromSlot(SaveGameSlotName, 0, LoadGameDelegate);
+		GameLoaded.Broadcast(SaveGameRef);
 		UE_LOG(LogTemp, Log, TEXT("Game was loaded asynchronously"));
 
 	}

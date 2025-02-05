@@ -4,23 +4,24 @@
 
 #include "CoreMinimal.h"
 #include "Subsystems/GameInstanceSubsystem.h"
+#include "Interface_Savable.h"
 #include "CurrencySubsystem.generated.h"
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FSessionResourcesChanged, float, NewSessionResourceAmount);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FTotalResourcesChanged, float, NewTotalResourceAmount);
 
 UCLASS()
-class UCurrencySubsystem : public UGameInstanceSubsystem
+class UCurrencySubsystem : public UGameInstanceSubsystem, public IInterface_Savable
 {
 	GENERATED_BODY()
+public:
 
-	UPROPERTY()
+	UPROPERTY(BlueprintReadWrite)
 	int32 TotalResources;
 
-	UPROPERTY()
+	UPROPERTY(BlueprintReadWrite)
 	int32 SessionResources;
 
-public:
 
 	UPROPERTY(BlueprintAssignable)
 	FSessionResourcesChanged SessionResourcesChanged;
@@ -45,5 +46,10 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	FORCEINLINE float GetSessionResources() const{return SessionResources;}
+	
+	virtual void LoadData_Implementation(UPrototypeSaveGame* SaveGameRef) override;
+	
+	virtual void SaveData_Implementation(UPrototypeSaveGame* SaveGameRef) override;
+
 	
 };

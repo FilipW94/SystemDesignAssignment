@@ -26,3 +26,13 @@ void UCurrencySubsystem::DecreaseSessionResources_Implementation(float Resources
 	SessionResources -= ResourcesLost;
 	SessionResourcesChanged.Broadcast(SessionResources);
 }
+
+void UCurrencySubsystem::LoadData_Implementation(UPrototypeSaveGame* SaveGameRef)
+{
+	TotalResources = SaveGameRef->Saved_TotalResources;
+}
+
+void UCurrencySubsystem::SaveData_Implementation(UPrototypeSaveGame* SaveGameRef)
+{
+	SaveGameRef->Saved_TotalResources = TotalResources;
+}
