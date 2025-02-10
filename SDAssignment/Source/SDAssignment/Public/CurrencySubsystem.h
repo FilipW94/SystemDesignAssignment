@@ -7,8 +7,8 @@
 #include "Interface_Savable.h"
 #include "CurrencySubsystem.generated.h"
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FSessionResourcesChanged, float, NewSessionResourceAmount);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FTotalResourcesChanged, float, NewTotalResourceAmount);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FSessionCurrencyChanged, float, NewSessionCurrencyAmount);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FTotalCurrencyChanged, float, NewTotalCurrencyAmount);
 
 UCLASS()
 class UCurrencySubsystem : public UGameInstanceSubsystem, public IInterface_Savable
@@ -17,35 +17,38 @@ class UCurrencySubsystem : public UGameInstanceSubsystem, public IInterface_Sava
 public:
 
 	UPROPERTY(BlueprintReadWrite)
-	int32 TotalResources;
+	int32 TotalCurrency;
 
 	UPROPERTY(BlueprintReadWrite)
-	int32 SessionResources;
+	int32 SessionCurrency;
 
 
 	UPROPERTY(BlueprintAssignable)
-	FSessionResourcesChanged SessionResourcesChanged;
+	FSessionCurrencyChanged SessionCurrencyChanged;
 
 	UPROPERTY(BlueprintAssignable)
-	FTotalResourcesChanged TotalResourcesChanged;
+	FTotalCurrencyChanged TotalCurrencyChanged;
 	
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
-	void IncreaseTotalResources(float ResourcesGained);
+	void IncreaseTotalCurrency(float CurrencyGained);
 
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
-	void DecreaseTotalResources(float ResourcesSpent);
+	void DecreaseTotalCurrency(float CurrencySpent);
 
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
-	void IncreaseSessionResources(float ResourcesGained);
+	void IncreaseSessionCurrency(float CurrencyGained);
 
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
-	void DecreaseSessionResources(float ResourcesLost);
+	void DecreaseSessionCurrency(float CurrencyLost);
 
 	UFUNCTION(BlueprintCallable)
-	FORCEINLINE float GetTotalResources() const{return TotalResources;}
+	void ClearSessionCurrency();
 
 	UFUNCTION(BlueprintCallable)
-	FORCEINLINE float GetSessionResources() const{return SessionResources;}
+	FORCEINLINE float GetTotalCurrency() const{return TotalCurrency;}
+
+	UFUNCTION(BlueprintCallable)
+	FORCEINLINE float GetSessionCurrency() const{return SessionCurrency;}
 	
 	virtual void LoadData_Implementation(UPrototypeSaveGame* SaveGameRef) override;
 	

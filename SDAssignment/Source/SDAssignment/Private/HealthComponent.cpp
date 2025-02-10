@@ -26,6 +26,7 @@ void UHealthComponent::HealthLost(float HealthAmountLost)
 	if(CurrentHealth <= 0.f)
 	{
 		CurrentHealth = 0.f;
+		OwnerHasDied();
 		OwnerDied.Broadcast();
 		return;
 		

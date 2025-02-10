@@ -3,36 +3,42 @@
 
 #include "CurrencySubsystem.h"
 
-void UCurrencySubsystem::IncreaseTotalResources_Implementation(float ResourcesGained)
+void UCurrencySubsystem::IncreaseTotalCurrency_Implementation(float CurrencyGained)
 {
-	TotalResources += ResourcesGained;
-	TotalResourcesChanged.Broadcast(TotalResources);
+	TotalCurrency += CurrencyGained;
+	TotalCurrencyChanged.Broadcast(TotalCurrency);
 }
 
-void UCurrencySubsystem::DecreaseTotalResources_Implementation(float ResourcesSpent)
+void UCurrencySubsystem::DecreaseTotalCurrency_Implementation(float CurrencySpent)
 {
-	TotalResources -= ResourcesSpent;
-	TotalResourcesChanged.Broadcast(TotalResources);
+	TotalCurrency -= CurrencySpent;
+	TotalCurrencyChanged.Broadcast(TotalCurrency);
 }
 
-void UCurrencySubsystem::IncreaseSessionResources_Implementation(float ResourcesGained)
+void UCurrencySubsystem::IncreaseSessionCurrency_Implementation(float CurrencyGained)
 {
-	SessionResources += ResourcesGained;
-	SessionResourcesChanged.Broadcast(SessionResources);
+	SessionCurrency += CurrencyGained;
+	SessionCurrencyChanged.Broadcast(SessionCurrency);
 }
 
-void UCurrencySubsystem::DecreaseSessionResources_Implementation(float ResourcesLost)
+void UCurrencySubsystem::DecreaseSessionCurrency_Implementation(float CurrencyLost)
 {
-	SessionResources -= ResourcesLost;
-	SessionResourcesChanged.Broadcast(SessionResources);
+	SessionCurrency -= CurrencyLost;
+	SessionCurrencyChanged.Broadcast(SessionCurrency);
+}
+
+void UCurrencySubsystem::ClearSessionCurrency()
+{
+	SessionCurrency = 0;
+	SessionCurrencyChanged.Broadcast(SessionCurrency);
 }
 
 void UCurrencySubsystem::LoadData_Implementation(UPrototypeSaveGame* SaveGameRef)
 {
-	TotalResources = SaveGameRef->Saved_TotalResources;
+	TotalCurrency = SaveGameRef->Saved_TotalResources;
 }
 
 void UCurrencySubsystem::SaveData_Implementation(UPrototypeSaveGame* SaveGameRef)
 {
-	SaveGameRef->Saved_TotalResources = TotalResources;
+	SaveGameRef->Saved_TotalResources = TotalCurrency;
 }
