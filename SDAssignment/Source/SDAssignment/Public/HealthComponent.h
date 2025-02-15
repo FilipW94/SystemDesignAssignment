@@ -34,7 +34,7 @@ public:
 	FOwnerDiedDelegate OwnerDied;
 
 	UFUNCTION(BlueprintCallable)
-	void HealthGained(float HealthAmountGained);
+	bool HealthGained(float HealthAmountGained);
 
 	UFUNCTION(BlueprintCallable)
 	void HealthLost(float HealthAmountLost);

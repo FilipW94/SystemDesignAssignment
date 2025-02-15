@@ -14,32 +14,41 @@ UCLASS()
 class UCurrencySubsystem : public UGameInstanceSubsystem, public IInterface_Savable
 {
 	GENERATED_BODY()
-public:
 
+	UPROPERTY()
+	TMap<FName, int32> CurrencyAcquisitionLog;
+
+
+public:
 	UPROPERTY(BlueprintReadWrite)
 	int32 TotalCurrency;
 
 	UPROPERTY(BlueprintReadWrite)
 	int32 SessionCurrency;
 
-
 	UPROPERTY(BlueprintAssignable)
 	FSessionCurrencyChanged SessionCurrencyChanged;
 
 	UPROPERTY(BlueprintAssignable)
 	FTotalCurrencyChanged TotalCurrencyChanged;
+
+	UFUNCTION(BlueprintCallable, BlueprintPure)
+	TMap<FName, int32> GetAcquisitionLog();
+
+	UFUNCTION(BlueprintCallable)
+	void AddAcquisitionLogEntry(FName AcquisitionMethod, int32 CurrencyGained);
 	
-	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	UFUNCTION(BlueprintCallable)
 	void IncreaseTotalCurrency(float CurrencyGained);
 
-	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	UFUNCTION(BlueprintCallable)
 	void DecreaseTotalCurrency(float CurrencySpent);
 
-	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
-	void IncreaseSessionCurrency(float CurrencyGained);
+	UFUNCTION(BlueprintCallable)
+	void IncreaseSessionCurrency(FName AcquisitionMethod, float CurrencyGained);
 
-	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
-	void DecreaseSessionCurrency(float CurrencyLost);
+	UFUNCTION(BlueprintCallable)
+	void DecreaseSessionCurrency(FName AcquisitionMethod, float CurrencyLost);
 
 	UFUNCTION(BlueprintCallable)
 	void ClearSessionCurrency();

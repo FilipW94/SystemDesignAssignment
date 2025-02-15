@@ -11,14 +11,18 @@ UHealthComponent::UHealthComponent()
 
 }
 
-void UHealthComponent::HealthGained(float HealthAmountGained)
+bool UHealthComponent::HealthGained(float HealthAmountGained)
 {
+	if(CurrentHealth >= MaxHealth) return false;
 	CurrentHealth += HealthAmountGained;
 	if(CurrentHealth > MaxHealth)
 	{
 		CurrentHealth = MaxHealth;
 		HealthChanged.Broadcast(CurrentHealth);
+		return true;
 	}
+	HealthChanged.Broadcast(CurrentHealth);
+	return true;
 }
 void UHealthComponent::HealthLost(float HealthAmountLost)
 {
