@@ -10,14 +10,25 @@
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FSessionCurrencyChanged, float, NewSessionCurrencyAmount);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FTotalCurrencyChanged, float, NewTotalCurrencyAmount);
 
+USTRUCT(BlueprintType)
+struct FAcquisition
+{
+	GENERATED_BODY()
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	FText AcquisitionMethod;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	int32 CurrencyGained;
+};
+
 UCLASS()
 class UCurrencySubsystem : public UGameInstanceSubsystem, public IInterface_Savable
 {
 	GENERATED_BODY()
 
 	UPROPERTY()
-	TMap<FName, int32> CurrencyAcquisitionLog;
-
+	TArray<FAcquisition> CurrencyAcquisitionLog;
 
 public:
 	UPROPERTY(BlueprintReadWrite)
@@ -33,10 +44,10 @@ public:
 	FTotalCurrencyChanged TotalCurrencyChanged;
 
 	UFUNCTION(BlueprintCallable, BlueprintPure)
-	TMap<FName, int32> GetAcquisitionLog();
+	TArray<FAcquisition> GetAcquisitionLog();
 
 	UFUNCTION(BlueprintCallable)
-	void AddAcquisitionLogEntry(FName AcquisitionMethod, int32 CurrencyGained);
+	void AddAcquisitionLogEntry(FAcquisition Entry);
 	
 	UFUNCTION(BlueprintCallable)
 	void IncreaseTotalCurrency(float CurrencyGained);
@@ -45,10 +56,10 @@ public:
 	void DecreaseTotalCurrency(float CurrencySpent);
 
 	UFUNCTION(BlueprintCallable)
-	void IncreaseSessionCurrency(FName AcquisitionMethod, float CurrencyGained);
+	void IncreaseSessionCurrency(FAcquisition Entry);
 
 	UFUNCTION(BlueprintCallable)
-	void DecreaseSessionCurrency(FName AcquisitionMethod, float CurrencyLost);
+	void DecreaseSessionCurrency(float CurrencyLost);
 
 	UFUNCTION(BlueprintCallable)
 	void ClearSessionCurrency();

@@ -15,28 +15,27 @@ void UCurrencySubsystem::DecreaseTotalCurrency(float CurrencySpent)
 	TotalCurrencyChanged.Broadcast(TotalCurrency);
 }
 
-void UCurrencySubsystem::IncreaseSessionCurrency(FName AcquisitionMethod,float CurrencyGained)
+void UCurrencySubsystem::IncreaseSessionCurrency(FAcquisition Entry)
 {
-	SessionCurrency += CurrencyGained;
+	SessionCurrency += Entry.CurrencyGained;
 	SessionCurrencyChanged.Broadcast(SessionCurrency);
-	AddAcquisitionLogEntry(AcquisitionMethod, CurrencyGained);
+	AddAcquisitionLogEntry(Entry);
 }
 
-void UCurrencySubsystem::DecreaseSessionCurrency(FName AcquisitionMethod, float CurrencyLost)
+void UCurrencySubsystem::DecreaseSessionCurrency(float CurrencyLost)
 {
 	SessionCurrency -= CurrencyLost;
 	SessionCurrencyChanged.Broadcast(SessionCurrency);
-	AddAcquisitionLogEntry(AcquisitionMethod, -CurrencyLost);
 }
 
-TMap<FName, int32> UCurrencySubsystem::GetAcquisitionLog()
+TArray<FAcquisition> UCurrencySubsystem::GetAcquisitionLog()
 {
 	return CurrencyAcquisitionLog;
 }
 
-void UCurrencySubsystem::AddAcquisitionLogEntry(FName AcquisitionMethod, int32 CurrencyGained)
+void UCurrencySubsystem::AddAcquisitionLogEntry(FAcquisition Entry)
 {
-	CurrencyAcquisitionLog.Add(AcquisitionMethod, CurrencyGained);
+	CurrencyAcquisitionLog.Add(Entry);
 }
 
 void UCurrencySubsystem::ClearSessionCurrency()
