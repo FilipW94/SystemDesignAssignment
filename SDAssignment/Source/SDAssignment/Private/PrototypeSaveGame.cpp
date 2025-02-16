@@ -15,16 +15,15 @@ void UPrototypeSaveGame::SaveAllData_Implementation(const TArray<AActor*>& Savab
 	for (auto Element : SavableObject)
 	{
 		IInterface_Savable::Execute_SaveData(Element, this);
-		
 	}
 }
 
 UPrototypeSaveGame::UPrototypeSaveGame()
 {
-	SetInitialMapStatus();
+	SetStartingValues();
 }
 
-void UPrototypeSaveGame::SetInitialMapStatus()
+void UPrototypeSaveGame::SetStartingValues()
 {
 	if(Saved_UnlockedMaps.Num() == 0 )
 	{
@@ -36,5 +35,13 @@ void UPrototypeSaveGame::SetInitialMapStatus()
 		Saved_UnlockedMaps.Add(E_Levels::LVL_06, false);
 		Saved_UnlockedMaps.Add(E_Levels::LVL_07, false);
 		Saved_UnlockedMaps.Add(E_Levels::LVL_08, false);
+	}
+	if(Saved_PlayerUpgrades.Num() == 0)
+	{
+		Saved_PlayerUpgrades.Add(FUpgrades{ FName(TEXT("MoveSpeed")), 0, 600.f });
+		Saved_PlayerUpgrades.Add(FUpgrades{ FName(TEXT("DirectDamage")), 0, 25.0f });
+		Saved_PlayerUpgrades.Add(FUpgrades{ FName(TEXT("StartingBolts")), 0, 12.0f });
+		Saved_PlayerUpgrades.Add(FUpgrades{ FName(TEXT("ReloadSpeed")), 0, 2.0f });
+		Saved_PlayerUpgrades.Add(FUpgrades{ FName(TEXT("MaxHealth")), 0, 100.0f });
 	}
 }

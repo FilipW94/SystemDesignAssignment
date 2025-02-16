@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/SaveGame.h"
 #include "PrototypeEnums.h"
+#include "PrototypeStructs.h"
 #include "PrototypeSaveGame.generated.h"
 
 /**
@@ -34,24 +35,12 @@ public:
 	TMap<E_Levels, bool> Saved_UnlockedMaps;
 
 	UPROPERTY(BlueprintReadWrite)
-	float Saved_DirectDamage = 25.f;
+	TMap<E_BoltType, bool> Saved_UnlockedBolts;
 
 	UPROPERTY(BlueprintReadWrite)
-	int32 Saved_StartingBolts = 10.f;
+	TArray<FUpgrades> Saved_PlayerUpgrades;
 
-	UPROPERTY(BlueprintReadWrite)
-	float Saved_ReloadSpeed = 2.0f;
-
-	UPROPERTY(BlueprintReadWrite)
-	float Saved_MoveSpeed = 600.f;
-
-	UPROPERTY(BlueprintReadWrite)
-	float Saved_MapHighScore = 0.f;
-
-	UPROPERTY(BlueprintReadWrite)
-	float Saved_MaxHealth = 100.f;
-
-	UFUNCTION()
-	void SetInitialMapStatus();
+	UFUNCTION(BlueprintCallable)
+	void SetStartingValues();
 	
 };

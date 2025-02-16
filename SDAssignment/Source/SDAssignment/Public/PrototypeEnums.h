@@ -23,6 +23,26 @@ enum class E_Levels : uint8
 	LVL_09
 
 };
+UENUM(BlueprintType)
+enum class E_BoltType : uint8
+{
+	None,
+	LifeSteal,
+	Poison,
+	Frost,
+	Explosive
+};
+
+UENUM(BlueprintType)
+enum class E_Upgrades : uint8
+{
+	None,
+	DirectDamage,
+	MoreStartingBolts,
+	FasterReload,
+	IncreasedMoveSpeed
+};
+
 class SDASSIGNMENT_API PrototypeEnums
 {
 public:
