@@ -17,15 +17,17 @@ void UCurrencySubsystem::DecreaseTotalCurrency(float CurrencySpent)
 
 void UCurrencySubsystem::IncreaseSessionCurrency(FAcquisition Entry)
 {
-	SessionCurrency += Entry.CurrencyGained;
+	SessionCurrency += Entry.Currency;
 	SessionCurrencyChanged.Broadcast(SessionCurrency);
 	AddAcquisitionLogEntry(Entry);
 }
 
-void UCurrencySubsystem::DecreaseSessionCurrency(float CurrencyLost)
+void UCurrencySubsystem::DecreaseSessionCurrency(FAcquisition Entry)
 {
-	SessionCurrency -= CurrencyLost;
+	Entry.Currency *= -1;
+	SessionCurrency += Entry.Currency;
 	SessionCurrencyChanged.Broadcast(SessionCurrency);
+	AddAcquisitionLogEntry(Entry);
 }
 
 TArray<FAcquisition> UCurrencySubsystem::GetAcquisitionLog()

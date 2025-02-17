@@ -19,7 +19,7 @@ struct FAcquisition
 	FText AcquisitionMethod;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-	int32 CurrencyGained;
+	int32 Currency;
 };
 
 UCLASS()
@@ -59,7 +59,7 @@ public:
 	void IncreaseSessionCurrency(FAcquisition Entry);
 
 	UFUNCTION(BlueprintCallable)
-	void DecreaseSessionCurrency(float CurrencyLost);
+	void DecreaseSessionCurrency(FAcquisition Entry);
 
 	UFUNCTION(BlueprintCallable)
 	void ClearSessionCurrency();
