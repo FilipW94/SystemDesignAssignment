@@ -69,6 +69,7 @@ public:
 	UFUNCTION(BlueprintCallable)
 	const FLevelStats& GetLevelStats();
 
+	UFUNCTION(BlueprintCallable)
 	FORCEINLINE void StealthRunFailed() { LevelStats.bStealthRun = false; }
 
 };
