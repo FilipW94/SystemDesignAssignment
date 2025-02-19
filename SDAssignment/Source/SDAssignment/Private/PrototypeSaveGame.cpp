@@ -44,4 +44,12 @@ void UPrototypeSaveGame::SetStartingValues()
 		Saved_PlayerUpgrades.Add(FUpgrades{ FName(TEXT("ReloadSpeed")), 0, 2.0f });
 		Saved_PlayerUpgrades.Add(FUpgrades{ FName(TEXT("MaxHealth")), 0, 100.0f });
 	}
+	if(Saved_UnlockedBolts.Num() == 0)
+	{
+		Saved_UnlockedBolts.Add(E_BoltType::None, true);
+		Saved_UnlockedBolts.Add(E_BoltType::Frost, false);
+		Saved_UnlockedBolts.Add(E_BoltType::Poison, false);
+		Saved_UnlockedBolts.Add(E_BoltType::LifeSteal, false);
+		Saved_UnlockedBolts.Add(E_BoltType::Explosive, false);
+	}
 }
