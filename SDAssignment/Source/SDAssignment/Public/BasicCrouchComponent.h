@@ -27,17 +27,22 @@ public:
 
 	UFUNCTION()
 	void OnTimelineFinished();
-
-	UPROPERTY()
-	UCurveFloat* CurveFloat;
-
-	UPROPERTY(EditAnywhere)
-	float CrouchTransitionPeriod;
-
+	
 	UPROPERTY(BlueprintAssignable)
 	FCrouchStatusChanged CrouchStatusChanged;
 	
 private:
+	UPROPERTY(EditAnywhere)
+	bool bShowDebug;
+
+	UPROPERTY(EditAnywhere)
+	float TraceEndPointAdjustment;
+	
+	UPROPERTY(EditAnywhere)
+	float CrouchTransitionPeriod;
+
+	UPROPERTY()
+	UCurveFloat* CurveFloat;
 
 	void ShortenPlayerCapsule() const;
 
@@ -52,12 +57,6 @@ private:
 
 	UPROPERTY()
 	bool bTimelineInProgress;
-	
-	UPROPERTY(EditAnywhere)
-	bool bShowDebug;
-
-	UPROPERTY(EditAnywhere)
-	float TraceEndPointAdjustment;
 	
 	UPROPERTY()
 	UTimelineComponent* CrouchTimeline;

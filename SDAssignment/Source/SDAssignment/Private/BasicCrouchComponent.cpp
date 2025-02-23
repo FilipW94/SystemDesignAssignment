@@ -11,8 +11,6 @@
 // Sets default values for this component's properties
 UBasicCrouchComponent::UBasicCrouchComponent()
 {
-	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
-	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = false;
 	PrimaryComponentTick.bStartWithTickEnabled = false;
 
@@ -22,7 +20,7 @@ UBasicCrouchComponent::UBasicCrouchComponent()
 
 void UBasicCrouchComponent::HandleTimelineProgress(float Value) const
 {
-	float PlayerHeightTransition = FMath::Lerp(PlayerStandingHeight, PlayerCrouchingHeight, Value);
+	const float PlayerHeightTransition = FMath::Lerp(PlayerStandingHeight, PlayerCrouchingHeight, Value);
 
 	if (PlayerCapsuleComponent)
 	{
@@ -38,7 +36,6 @@ void UBasicCrouchComponent::OnTimelineFinished()
 {
 	PrintMessage("Timeline finished");
 	bTimelineInProgress = false;
-	//BIsCrouching = !BIsCrouching;
 }
 
 
@@ -103,7 +100,7 @@ void UBasicCrouchComponent::SetPlayerHeightValues()
 		PlayerStandingHeight = PlayerCapsuleComponent->GetScaledCapsuleHalfHeight();
 		if (PlayerStandingHeight > 0)
 		{
-			PlayerCrouchingHeight = PlayerStandingHeight / 2;
+			PlayerCrouchingHeight = PlayerStandingHeight * 0.5f;
 		}
 		else
 		{
@@ -129,15 +126,14 @@ void UBasicCrouchComponent::PrintMessage(const FString& MessageToPrint)
 
 bool UBasicCrouchComponent::CheckOverheadObstacles() const
 {
-	FVector TraceStartPoint = PlayerCapsuleComponent->GetRelativeLocation();
-	FVector TraceEndPoint = TraceStartPoint + FVector(0, 0, PlayerStandingHeight + TraceEndPointAdjustment);
-	FCollisionShape TraceCollisionShape = FCollisionShape::MakeSphere(
-		PlayerCapsuleComponent->GetUnscaledCapsuleRadius());
+	const FVector TraceStartPoint = PlayerCapsuleComponent->GetRelativeLocation();
+	const FVector TraceEndPoint = TraceStartPoint + FVector(0, 0, PlayerStandingHeight + TraceEndPointAdjustment);
+	const FCollisionShape TraceCollisionShape = FCollisionShape::MakeSphere(PlayerCapsuleComponent->GetUnscaledCapsuleRadius());
 	FCollisionQueryParams Params;
 	Params.AddIgnoredActor(GetOwner());
 
 	FHitResult OutHit;
-	bool bHit = GetWorld()->SweepSingleByChannel(
+	const bool bHit = GetWorld()->SweepSingleByChannel(
 		OutHit,
 		TraceStartPoint,
 		TraceEndPoint,
@@ -174,7 +170,6 @@ void UBasicCrouchComponent::BeginPlay()
 
 	CurveFloat = NewObject<UCurveFloat>(this, TEXT("Timeline CurveFloat"));
 	CurveFloat->FloatCurve.AddKey(0.0f, 0.0f);
-
 	CurveFloat->FloatCurve.AddKey(CrouchTransitionPeriod, 1.0f);
 
 	if (CurveFloat)
@@ -192,9 +187,12 @@ void UBasicCrouchComponent::BeginPlay()
 			CrouchTimeline->SetTimelineLength(CrouchTransitionPeriod);
 			CrouchTimeline->SetPlayRate(1.0f);
 		}
-		for (auto It = CurveFloat->FloatCurve.GetKeyIterator(); It; ++It)
+		if(bShowDebug)
 		{
-			UE_LOG(LogTemp, Warning, TEXT("Curve Key: Time = %f, Value = %f"), It->Time, It->Value);
+			for (auto It = CurveFloat->FloatCurve.GetKeyIterator(); It; ++It)
+			{
+				UE_LOG(LogTemp, Warning, TEXT("Curve Key: Time = %f, Value = %f"), It->Time, It->Value);
+			}
 		}
 	}
 	else
